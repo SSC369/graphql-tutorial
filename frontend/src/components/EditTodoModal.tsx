@@ -2,20 +2,15 @@ import { useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { GET_TODOS } from "../queries/getTodos";
-import { TodoType } from "../types";
+import { EditTodoFormData, EditTodoModalProps } from "../types";
 import { EDIT_TODO } from "../queries/editTodo";
-
-interface EditTodoModalProps {
-  close: () => void;
-  editTodoData: TodoType | null;
-}
 
 const EditTodoModal: React.FC<EditTodoModalProps> = ({
   close,
   editTodoData,
 }) => {
   const { todo, completed, id } = editTodoData!;
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<EditTodoFormData>({
     todo: todo,
     completed: completed,
   });
@@ -87,6 +82,7 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({
           <div className="flex flex-col gap-1">
             <label className="text-slate-700 text-sm">Title</label>
             <input
+              type="text"
               onChange={handleInputChange}
               value={formData.todo}
               className="p-3 rounded-xl outline-none"

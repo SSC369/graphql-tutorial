@@ -3,16 +3,19 @@ import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { ADD_TODO } from "../queries/addTodo";
 import { GET_TODOS } from "../queries/getTodos";
+import { AddTodoFormData, AddTodoModalProps } from "../types";
 
-const AddTodoModal: React.FC<{ close: () => void }> = ({ close }) => {
-  const [formData, setFormData] = useState({
+const AddTodoModal: React.FC<AddTodoModalProps> = ({ close }) => {
+  const [formData, setFormData] = useState<AddTodoFormData>({
     todo: "",
   });
   const [isVisible, setIsVisible] = useState<boolean>(false);
+
   useEffect(() => {
     setIsVisible(true);
   }, []);
-  const [addTodo, { data }] = useMutation(ADD_TODO, {
+
+  const [addTodo] = useMutation(ADD_TODO, {
     refetchQueries: [GET_TODOS],
   });
 
@@ -22,13 +25,14 @@ const AddTodoModal: React.FC<{ close: () => void }> = ({ close }) => {
       close();
     }, 300);
   };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleValidation = () => {
+  const handleValidation = (): boolean => {
     const { todo } = formData;
     if (todo.trim() === "") {
       alert("Please add todo");
@@ -37,7 +41,7 @@ const AddTodoModal: React.FC<{ close: () => void }> = ({ close }) => {
     return true;
   };
 
-  const handleSubmitTodo = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitTodo = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (handleValidation()) {
       const { todo } = formData;

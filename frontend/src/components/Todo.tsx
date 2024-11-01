@@ -4,15 +4,9 @@ import { TbEdit } from "react-icons/tb";
 import { IoCloudDone } from "react-icons/io5";
 import { useMutation } from "@apollo/client";
 
-import { TodoType } from "../types";
+import { TodoPropsType } from "../types";
 import { DELETE_TODO } from "../queries/deleteTodo";
 import { GET_TODOS } from "../queries/getTodos";
-
-interface TodoPropsType {
-  todoData: TodoType;
-  setShowEditTodoModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setEditTodo: React.Dispatch<React.SetStateAction<TodoType | null>>;
-}
 
 const Todo: React.FC<TodoPropsType> = ({
   todoData,
@@ -24,18 +18,17 @@ const Todo: React.FC<TodoPropsType> = ({
   });
   const { id, todo, completed } = todoData;
 
-  const handleEditClick = () => {
+  const handleEditClick = (): void => {
     setEditTodo(todoData);
     setShowEditTodoModal(true);
   };
 
-  const handleTodoDelete = () => {
+  const handleTodoDelete = (): void => {
     deleteTodo({
       variables: {
         id: id,
       },
     });
-    console.log(data);
   };
 
   const renderButtons = (): React.ReactElement => {

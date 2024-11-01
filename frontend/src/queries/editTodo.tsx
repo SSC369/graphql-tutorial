@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { DocumentNode, gql } from "@apollo/client";
 
-export const EDIT_TODO = gql`
+export const EDIT_TODO: DocumentNode = gql`
   mutation EditTodo($todoData: TodoInput) {
     editTodo(todoData: $todoData) {
       todo

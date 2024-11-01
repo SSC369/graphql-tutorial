@@ -33,6 +33,23 @@ const App = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
+  const renderAddTodoModal = (): React.ReactElement => {
+    if (showAddTodoModal) {
+      return <AddTodoModal close={() => setShowAddTodoModal(false)} />;
+    }
+    return <></>;
+  };
+
+  const renderEditTodoModal = (): React.ReactElement => {
+    if (showEditTodoModal) {
+      <EditTodoModal
+        editTodoData={editTodo}
+        close={() => setShowEditTodoModal(false)}
+      />;
+    }
+    return <></>;
+  };
+
   return (
     <div className="min-h-dvh p-4 bg-slate-100 relative">
       <h1 className="text-xl font-semibold text-left">Todos</h1>
@@ -57,15 +74,8 @@ const App = () => {
         })}
       </ul>
 
-      {showAddTodoModal && (
-        <AddTodoModal close={() => setShowAddTodoModal(false)} />
-      )}
-      {showEditTodoModal && (
-        <EditTodoModal
-          editTodoData={editTodo}
-          close={() => setShowEditTodoModal(false)}
-        />
-      )}
+      {renderAddTodoModal()}
+      {renderEditTodoModal()}
     </div>
   );
 };

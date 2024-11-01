@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { DocumentNode, gql } from "@apollo/client";
 
-export const GET_TODOS = gql`
+export const GET_TODOS: DocumentNode = gql`
   query GetTodos {
     todos {
       todo
