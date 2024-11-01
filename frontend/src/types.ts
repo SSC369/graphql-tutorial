@@ -28,3 +28,11 @@ export interface EditTodoFormData {
   todo: string;
   completed: boolean;
 }
+
+export interface TodoDataType {
+  id: number;
+  todo: string;
+  user: number;
+  completed: boolean;
+  __typename: string;
+}

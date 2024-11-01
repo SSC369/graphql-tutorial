@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useQuery } from "@apollo/client";
+import { observer } from "mobx-react-lite";
+import { v4 } from "uuid";
+
 import { TodoType } from "./types";
 import Todo from "./components/Todo";
-import { v4 } from "uuid";
-import { useState } from "react";
 import AddTodoModal from "./components/AddTodoModal";
 import { GET_TODOS } from "./queries/getTodos";
 import EditTodoModal from "./components/EditTodoModal";
@@ -16,7 +18,7 @@ import EditTodoModal from "./components/EditTodoModal";
 //   }
 // `;
 
-const App = () => {
+const App: React.FC = observer(() => {
   const {
     loading,
     error,
@@ -78,6 +80,6 @@ const App = () => {
       {renderEditTodoModal()}
     </div>
   );
-};
+});
 
 export default App;

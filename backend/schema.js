@@ -3,7 +3,8 @@ type Todo{
     id: ID
     todo: String
     completed: Boolean
-    user: User
+    # user: User
+    user: Int
 }
 
 type User{

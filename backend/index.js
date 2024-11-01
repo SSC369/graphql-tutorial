@@ -24,11 +24,11 @@ const resolvers = {
     },
   },
 
-  Todo: {
-    user(todo) {
-      return data.users.find((user) => user.userId === todo.user);
-    },
-  },
+  // Todo: {
+  //   user(todo) {
+  //     return data.users.find((user) => user.userId === todo.user);
+  //   },
+  // },
 
   Mutation: {
     addTodo(_, args) {
