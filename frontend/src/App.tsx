@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, NetworkStatus } from "@apollo/client";
 import { observer } from "mobx-react-lite";
 import { v4 } from "uuid";
 
@@ -8,32 +8,31 @@ import Todo from "./components/Todo";
 import AddTodoModal from "./components/AddTodoModal";
 import { GET_TODOS } from "./queries/getTodos";
 import EditTodoModal from "./components/EditTodoModal";
-
-// const GET_COMPLETED_TODOS = gql`
-//   query GetCompletedTodos($completed: Boolean) {
-//     completedTodos(completed: $completed) {
-//       todo
-//       completed
-//     }
-//   }
-// `;
+import todoStore from "./store/TodoStore";
 
 const App: React.FC = observer(() => {
-  const {
-    loading,
-    error,
-    data: todosData,
-    //refetch,
-  } = useQuery(GET_TODOS, {
+  const { networkStatus, error } = useQuery(GET_TODOS, {
     variables: {},
-    fetchPolicy: "cache-first",
+    fetchPolicy: "cache-and-network",
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {
+      if (data.todos.__typename === "Success") {
+        todoStore.addTodoDataIntoStore(data.todos.todosData);
+      } else {
+        alert(data.todos.error);
+      }
+    },
   });
   const [showAddTodoModal, setShowAddTodoModal] = useState<boolean>(false);
   const [showEditTodoModal, setShowEditTodoModal] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<TodoType | null>(null);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (networkStatus === NetworkStatus.loading) {
+    return <p>Loading...</p>;
+  }
+  if (networkStatus === NetworkStatus.error) {
+    return <p>Error: {error!.message}</p>;
+  }
 
   const renderAddTodoModal = (): React.ReactElement => {
     if (showAddTodoModal) {
@@ -44,10 +43,12 @@ const App: React.FC = observer(() => {
 
   const renderEditTodoModal = (): React.ReactElement => {
     if (showEditTodoModal) {
-      <EditTodoModal
-        editTodoData={editTodo}
-        close={() => setShowEditTodoModal(false)}
-      />;
+      return (
+        <EditTodoModal
+          editTodoData={editTodo}
+          close={() => setShowEditTodoModal(false)}
+        />
+      );
     }
     return <></>;
   };
@@ -64,7 +65,7 @@ const App: React.FC = observer(() => {
         Add Todo
       </button>
       <ul className="flex flex-wrap justify-around gap-4 mt-6 ">
-        {todosData?.todos.map((todoData: TodoType) => {
+        {todoStore.todos.map((todoData: TodoType) => {
           return (
             <Todo
               setEditTodo={setEditTodo}

@@ -1,9 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import TodoModel from "../models/TodoModel";
+import { TodoDataType } from "../types";
 
 class TodoStore {
   todos: TodoModel[] = [];
-  isLoading: boolean = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -13,6 +13,13 @@ class TodoStore {
 
   addTodo(id: number, todo: string, user: number, completed: boolean) {
     this.todos.push(new TodoModel(id, todo, user, completed));
+  }
+
+  addTodoDataIntoStore(todoData: TodoDataType[]) {
+    todoData.forEach((eachTodo) => {
+      const { id, todo, completed, user } = eachTodo;
+      this.addTodo(id, todo, user, completed);
+    });
   }
 
   removeTodo(id: number) {

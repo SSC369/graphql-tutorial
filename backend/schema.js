@@ -15,8 +15,21 @@ type User{
     phoneNumber: String
 }
 
+type UnauthorizedUser {
+    message: String
+}
+
+type Success {
+    todosData: [Todo]
+}
+type Failure{
+    error: String
+}
+
+union TodosResponse = Success | Failure
+
 type Query{
-    todos: [Todo]
+    todos: TodosResponse
     todo(id: ID): Todo
     completedTodos(completed: Boolean):[Todo]
 }

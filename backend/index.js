@@ -9,7 +9,11 @@ import { typeDefs } from "./schema.js";
 const resolvers = {
   Query: {
     todos() {
-      return data.todos;
+      let authorized = true;
+      if (!authorized) {
+        return { error: "User is unauthorized" };
+      }
+      return { todosData: data.todos };
     },
     todo(_, args) {
       return data.todos.find((todo) => todo.id === parseInt(args.id));
@@ -23,12 +27,6 @@ const resolvers = {
       });
     },
   },
-
-  // Todo: {
-  //   user(todo) {
-  //     return data.users.find((user) => user.userId === todo.user);
-  //   },
-  // },
 
   Mutation: {
     addTodo(_, args) {
@@ -76,6 +74,19 @@ const resolvers = {
       return deletedTodo;
     },
   },
+
+  //used to define __typename for the union type.
+  TodosResponse: {
+    __resolveType(obj) {
+      if (obj.error) {
+        return "Failure"; // Map to Failure type
+      }
+      if (obj.todosData) {
+        return "Success"; // Map to Success type
+      }
+      return null; // GraphQLError if the type can't be determined
+    },
+  },
 };
 const server = new ApolloServer({
   typeDefs,
@@ -90,4 +101,4 @@ const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
 });
 
-console.log(`🚀  Server ready at: ${url}`);
+console.log(`🚀  Server ready at: ${url} :)`);
