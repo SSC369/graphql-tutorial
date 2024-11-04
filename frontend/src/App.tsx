@@ -3,12 +3,12 @@ import { useQuery, NetworkStatus } from "@apollo/client";
 import { observer } from "mobx-react-lite";
 import { v4 } from "uuid";
 
-import { TodoType } from "./types";
 import Todo from "./components/Todo";
 import AddTodoModal from "./components/AddTodoModal";
 import { GET_TODOS } from "./queries/getTodos";
 import EditTodoModal from "./components/EditTodoModal";
 import todoStore from "./store/TodoStore";
+import TodoModel from "./models/TodoModel";
 
 const App: React.FC = observer(() => {
   const { networkStatus, error } = useQuery(GET_TODOS, {
@@ -25,7 +25,7 @@ const App: React.FC = observer(() => {
   });
   const [showAddTodoModal, setShowAddTodoModal] = useState<boolean>(false);
   const [showEditTodoModal, setShowEditTodoModal] = useState<boolean>(false);
-  const [editTodo, setEditTodo] = useState<TodoType | null>(null);
+  const [editTodo, setEditTodo] = useState<TodoModel | null>(null);
 
   if (networkStatus === NetworkStatus.loading) {
     return <p>Loading...</p>;
@@ -45,7 +45,7 @@ const App: React.FC = observer(() => {
     if (showEditTodoModal) {
       return (
         <EditTodoModal
-          editTodoData={editTodo}
+          todoData={editTodo}
           close={() => setShowEditTodoModal(false)}
         />
       );
@@ -65,7 +65,7 @@ const App: React.FC = observer(() => {
         Add Todo
       </button>
       <ul className="flex flex-wrap justify-around gap-4 mt-6 ">
-        {todoStore.todos.map((todoData: TodoType) => {
+        {todoStore.todos.map((todoData: TodoModel) => {
           return (
             <Todo
               setEditTodo={setEditTodo}

@@ -1,19 +1,14 @@
-export interface TodoType {
-  id: number;
-  todo: string;
-  user: number;
-  completed: boolean;
-}
+import TodoModel from "./models/TodoModel";
 
 export interface EditTodoModalProps {
   close: () => void;
-  editTodoData: TodoType | null;
+  todoData: TodoModel | null;
 }
 
 export interface TodoPropsType {
-  todoData: TodoType;
+  todoData: TodoModel;
   setShowEditTodoModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setEditTodo: React.Dispatch<React.SetStateAction<TodoType | null>>;
+  setEditTodo: React.Dispatch<React.SetStateAction<TodoModel | null>>;
 }
 
 export interface AddTodoModalProps {

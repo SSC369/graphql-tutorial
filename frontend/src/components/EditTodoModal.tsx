@@ -1,15 +1,12 @@
 import { useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { GET_TODOS } from "../queries/getTodos";
+
 import { EditTodoFormData, EditTodoModalProps } from "../types";
 import { EDIT_TODO } from "../queries/editTodo";
 
-const EditTodoModal: React.FC<EditTodoModalProps> = ({
-  close,
-  editTodoData,
-}) => {
-  const { todo, completed, id } = editTodoData!;
+const EditTodoModal: React.FC<EditTodoModalProps> = ({ close, todoData }) => {
+  const { todo, completed, id } = todoData!;
   const [formData, setFormData] = useState<EditTodoFormData>({
     todo: todo,
     completed: completed,
@@ -18,9 +15,7 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({
   useEffect(() => {
     setIsVisible(true);
   }, []);
-  const [editTodo] = useMutation(EDIT_TODO, {
-    refetchQueries: [GET_TODOS],
-  });
+  const [editTodo] = useMutation(EDIT_TODO, {});
 
   const handleModalClose = (): void => {
     setIsVisible(false);
@@ -56,7 +51,7 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({
           },
         },
       });
-
+      todoData?.editTodo(todo, completed);
       handleModalClose();
     }
   };

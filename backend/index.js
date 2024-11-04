@@ -60,7 +60,6 @@ const resolvers = {
         return eachTodo;
       });
       data.todos = filteredData;
-
       return updatedTodo;
     },
     deleteTodo(_, { id }) {

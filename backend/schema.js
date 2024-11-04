@@ -3,8 +3,8 @@ type Todo{
     id: ID
     todo: String
     completed: Boolean
-    # user: User
     user: Int
+    # user: User  :=> for nested fetching
 }
 
 type User{

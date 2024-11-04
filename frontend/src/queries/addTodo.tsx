@@ -7,9 +7,7 @@ export const ADD_TODO: DocumentNode = gql`
       todo
       completed
       id
-      user {
-        name
-      }
+      user
     }
   }
 `;
