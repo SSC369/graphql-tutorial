@@ -1,36 +1,24 @@
 import { useState } from "react";
-import { useQuery, NetworkStatus } from "@apollo/client";
 import { observer } from "mobx-react-lite";
 import { v4 } from "uuid";
 
 import Todo from "./components/Todo";
 import AddTodoModal from "./components/AddTodoModal";
-import { GET_TODOS } from "./queries/getTodos";
 import EditTodoModal from "./components/EditTodoModal";
 import todoStore from "./store/TodoStore";
 import TodoModel from "./models/TodoModel";
+import useGetTodos from "./hooks/useGetTodos";
 
 const App: React.FC = observer(() => {
-  const { networkStatus, error } = useQuery(GET_TODOS, {
-    variables: {},
-    fetchPolicy: "cache-and-network",
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      if (data.todos.__typename === "Success") {
-        todoStore.addTodoDataIntoStore(data.todos.todosData);
-      } else {
-        alert(data.todos.error);
-      }
-    },
-  });
+  const [isLoading, error, isError] = useGetTodos();
   const [showAddTodoModal, setShowAddTodoModal] = useState<boolean>(false);
   const [showEditTodoModal, setShowEditTodoModal] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<TodoModel | null>(null);
 
-  if (networkStatus === NetworkStatus.loading) {
+  if (isLoading) {
     return <p>Loading...</p>;
   }
-  if (networkStatus === NetworkStatus.error) {
+  if (isError) {
     return <p>Error: {error!.message}</p>;
   }
 
@@ -64,7 +52,7 @@ const App: React.FC = observer(() => {
       >
         Add Todo
       </button>
-      <ul className="flex flex-wrap justify-around gap-4 mt-6 ">
+      <ul className="flex flex-wrap  gap-4 mt-6 ">
         {todoStore.todos.map((todoData: TodoModel) => {
           return (
             <Todo

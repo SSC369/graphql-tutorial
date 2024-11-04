@@ -40,7 +40,8 @@ const resolvers = {
       data.todos.push(newTodo);
       return newTodo;
     },
-    editTodo(_, args) {
+    editTodo(_, args, contextValue) {
+      console.log(contextValue);
       const { id, todo, completed } = args.todoData;
       let updatedTodo;
       const filteredData = data.todos.map((eachTodo) => {

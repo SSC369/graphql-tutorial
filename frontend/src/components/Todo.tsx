@@ -2,18 +2,14 @@ import React from "react";
 import { MdDelete } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
 import { IoCloudDone } from "react-icons/io5";
-import { useMutation } from "@apollo/client";
 import { observer } from "mobx-react-lite";
 
 import { TodoPropsType } from "../types";
-import { DELETE_TODO } from "../queries/deleteTodo";
-import { GET_TODOS } from "../queries/getTodos";
+import useDeleteTodo from "../hooks/useDeleteTodo";
 
 const Todo: React.FC<TodoPropsType> = observer(
   ({ todoData, setShowEditTodoModal, setEditTodo }) => {
-    const [deleteTodo] = useMutation(DELETE_TODO, {
-      refetchQueries: [GET_TODOS],
-    });
+    const { deleteTodo, error } = useDeleteTodo();
     const { id, todo, completed } = todoData;
 
     const handleEditClick = (): void => {
@@ -47,6 +43,10 @@ const Todo: React.FC<TodoPropsType> = observer(
         </div>
       );
     };
+
+    if (error) {
+      return <h1>Something went wrong !!!</h1>;
+    }
 
     return (
       <li

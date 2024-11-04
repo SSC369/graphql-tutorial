@@ -1,3 +1,11 @@
+import {
+  ApolloCache,
+  ApolloError,
+  DefaultContext,
+  FetchResult,
+  MutationFunctionOptions,
+  OperationVariables,
+} from "@apollo/client";
 import TodoModel from "./models/TodoModel";
 
 export interface EditTodoModalProps {
@@ -25,9 +33,60 @@ export interface EditTodoFormData {
 }
 
 export interface TodoDataType {
-  id: number;
+  id: string;
   todo: string;
   user: number;
   completed: boolean;
   __typename: string;
 }
+
+export type AddTodoHookType = () => {
+  loading: boolean;
+  error: ApolloError | undefined;
+  addTodo: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any>>;
+};
+
+export type EditTodoHookType = (todoInstance: TodoModel) => {
+  editTodo: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any>>;
+  loading: boolean;
+  error: ApolloError | undefined;
+};
+
+export type DeleteTodoHookType = () => {
+  deleteTodo: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any>>;
+  loading: boolean;
+  error: ApolloError | undefined;
+};
+
+export type GetTodosHookType = () => [
+  isLoading: boolean,
+  error: ApolloError | undefined,
+  isError: boolean
+];

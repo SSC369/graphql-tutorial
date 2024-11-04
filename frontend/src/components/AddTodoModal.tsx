@@ -1,9 +1,8 @@
-import { useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { ADD_TODO } from "../queries/addTodo";
-import { GET_TODOS } from "../queries/getTodos";
+
 import { AddTodoFormData, AddTodoModalProps } from "../types";
+import useAddTodo from "../hooks/useAddTodo";
 
 const AddTodoModal: React.FC<AddTodoModalProps> = ({ close }) => {
   const [formData, setFormData] = useState<AddTodoFormData>({
@@ -15,9 +14,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = ({ close }) => {
     setIsVisible(true);
   }, []);
 
-  const [addTodo] = useMutation(ADD_TODO, {
-    refetchQueries: [GET_TODOS],
-  });
+  const { addTodo, loading, error } = useAddTodo();
 
   const handleModalClose = (): void => {
     setIsVisible(false);
@@ -55,6 +52,10 @@ const AddTodoModal: React.FC<AddTodoModalProps> = ({ close }) => {
     }
   };
 
+  if (error) {
+    return <h1>Something went wrong!!!</h1>;
+  }
+
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center  bg-black bg-opacity-60 transition-opacity duration-300 ${
@@ -87,7 +88,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = ({ close }) => {
             className="bg-sky text-sky p-2 rounded-xl  text-sm px-4 font-medium self-center"
             type="submit"
           >
-            Submit
+            {loading ? "...loading" : "Submit"}
           </button>
         </form>
       </div>

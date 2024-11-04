@@ -11,7 +11,7 @@ class TodoStore {
 
   getTodo() {}
 
-  addTodo(id: number, todo: string, user: number, completed: boolean) {
+  addTodo(id: string, todo: string, user: number, completed: boolean) {
     this.todos.push(new TodoModel(id, todo, user, completed));
   }
 
@@ -23,7 +23,7 @@ class TodoStore {
   }
 
   removeTodo(id: number) {
-    this.todos = this.todos.filter((todo) => todo.id !== id);
+    this.todos = this.todos.filter((todo) => parseInt(todo.id) !== id);
   }
 }
 

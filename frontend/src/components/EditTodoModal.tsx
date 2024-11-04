@@ -1,9 +1,8 @@
-import { useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 
 import { EditTodoFormData, EditTodoModalProps } from "../types";
-import { EDIT_TODO } from "../queries/editTodo";
+import useEditTodo from "../hooks/useEditTodo";
 
 const EditTodoModal: React.FC<EditTodoModalProps> = ({ close, todoData }) => {
   const { todo, completed, id } = todoData!;
@@ -15,7 +14,8 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ close, todoData }) => {
   useEffect(() => {
     setIsVisible(true);
   }, []);
-  const [editTodo] = useMutation(EDIT_TODO, {});
+
+  const { editTodo, loading, error } = useEditTodo(todoData!);
 
   const handleModalClose = (): void => {
     setIsVisible(false);
@@ -51,10 +51,13 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ close, todoData }) => {
           },
         },
       });
-      todoData?.editTodo(todo, completed);
       handleModalClose();
     }
   };
+
+  if (error) {
+    return <h1>Something went wrong !!!</h1>;
+  }
 
   return (
     <div
@@ -100,7 +103,7 @@ const EditTodoModal: React.FC<EditTodoModalProps> = ({ close, todoData }) => {
             className="bg-sky text-sky p-2 rounded-xl  text-sm px-4 font-medium self-center"
             type="submit"
           >
-            Save
+            {loading ? "wait" : "Save"}
           </button>
         </form>
       </div>
