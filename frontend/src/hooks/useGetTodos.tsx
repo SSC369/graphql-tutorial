@@ -4,7 +4,7 @@ import { GET_TODOS } from "../queries/getTodos";
 import { GetTodosHookType } from "../types";
 
 const useGetTodos: GetTodosHookType = () => {
-  const { networkStatus, error } = useQuery(GET_TODOS, {
+  const { networkStatus, error, refetch } = useQuery(GET_TODOS, {
     variables: {},
     fetchPolicy: "cache-and-network",
     notifyOnNetworkStatusChange: true,
@@ -19,7 +19,7 @@ const useGetTodos: GetTodosHookType = () => {
 
   const isLoading = networkStatus === NetworkStatus.loading;
   const isError = networkStatus === NetworkStatus.error;
-  return [isLoading, error, isError];
+  return { isLoading, error, isError, refetch };
 };
 
 export default useGetTodos;

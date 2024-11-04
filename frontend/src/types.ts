@@ -1,6 +1,7 @@
 import {
   ApolloCache,
   ApolloError,
+  ApolloQueryResult,
   DefaultContext,
   FetchResult,
   MutationFunctionOptions,
@@ -85,8 +86,11 @@ export type DeleteTodoHookType = () => {
   error: ApolloError | undefined;
 };
 
-export type GetTodosHookType = () => [
-  isLoading: boolean,
-  error: ApolloError | undefined,
-  isError: boolean
-];
+export type GetTodosHookType = () => {
+  isLoading: boolean;
+  error: ApolloError | undefined;
+  isError: boolean;
+  refetch: (
+    variables?: Partial<OperationVariables> | undefined
+  ) => Promise<ApolloQueryResult<any>>;
+};

@@ -10,7 +10,7 @@ import TodoModel from "./models/TodoModel";
 import useGetTodos from "./hooks/useGetTodos";
 
 const App: React.FC = observer(() => {
-  const [isLoading, error, isError] = useGetTodos();
+  const { isLoading, error, isError, refetch } = useGetTodos();
   const [showAddTodoModal, setShowAddTodoModal] = useState<boolean>(false);
   const [showEditTodoModal, setShowEditTodoModal] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<TodoModel | null>(null);
@@ -19,7 +19,12 @@ const App: React.FC = observer(() => {
     return <p>Loading...</p>;
   }
   if (isError) {
-    return <p>Error: {error!.message}</p>;
+    return (
+      <div>
+        <p>Error: {error!.message}</p>
+        <button onClick={() => refetch()}>Retry</button>
+      </div>
+    );
   }
 
   const renderAddTodoModal = (): React.ReactElement => {
