@@ -7,7 +7,7 @@ import AddTodoModal from "./components/AddTodoModal";
 import EditTodoModal from "./components/EditTodoModal";
 import todoStore from "./store/TodoStore";
 import TodoModel from "./models/TodoModel";
-import useGetTodos from "./hooks/useGetTodos";
+import useGetTodos from "./apis/queries/getTodos/useGetTodos";
 
 const App: React.FC = observer(() => {
   const { isLoading, error, isError, refetch } = useGetTodos();

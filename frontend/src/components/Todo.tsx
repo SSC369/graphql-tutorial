@@ -5,7 +5,7 @@ import { IoCloudDone } from "react-icons/io5";
 import { observer } from "mobx-react-lite";
 
 import { TodoPropsType } from "../types";
-import useDeleteTodo from "../hooks/useDeleteTodo";
+import useDeleteTodo from "../apis/mutations/deleteTodo/useDeleteTodo";
 
 const Todo: React.FC<TodoPropsType> = observer(
   ({ todoData, setShowEditTodoModal, setEditTodo }) => {

@@ -94,3 +94,33 @@ export type GetTodosHookType = () => {
     variables?: Partial<OperationVariables> | undefined
   ) => Promise<ApolloQueryResult<any>>;
 };
+
+export type DeleteTodoSuccessResponseType = (data: {
+  deleteTodo: {
+    id: string;
+  };
+}) => void;
+
+export type AddTodoSuccessResponseType = (data: {
+  addTodo: TodoDataType;
+}) => void;
+
+export type EditTodoSuccessResponseType = (
+  data: {
+    editTodo: {
+      todo: string;
+      id: string;
+      completed: boolean;
+      user: number;
+    };
+  },
+  todoInstance: TodoModel
+) => void;
+
+export type GetTodosSuccessResponseDataType = (data: {
+  todos: { todosData: TodoDataType[] };
+}) => void;
+
+export type GetTodosFailureResponseDataType = (data: {
+  todos: { error: string };
+}) => void;

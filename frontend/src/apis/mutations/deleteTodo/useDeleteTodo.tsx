@@ -1,13 +1,13 @@
 import { useMutation } from "@apollo/client";
-import { DELETE_TODO } from "../queries/deleteTodo";
-import { DeleteTodoHookType } from "../types";
-import todoStore from "../store/TodoStore";
+
+import { DELETE_TODO } from "./deleteTodo";
+import { DeleteTodoHookType } from "../../../types";
+import { onSuccess } from "./responseHandler";
 
 const useDeleteTodo: DeleteTodoHookType = () => {
   const [deleteTodo, { loading, error }] = useMutation(DELETE_TODO, {
     onCompleted: (data) => {
-      const { id } = data.deleteTodo;
-      todoStore.removeTodo(parseInt(id));
+      onSuccess(data);
     },
   });
 

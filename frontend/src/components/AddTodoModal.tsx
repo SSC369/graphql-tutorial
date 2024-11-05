@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 
 import { AddTodoFormData, AddTodoModalProps } from "../types";
-import useAddTodo from "../hooks/useAddTodo";
+import useAddTodo from "../apis/mutations/addTodo/useAddTodo";
 
 const AddTodoModal: React.FC<AddTodoModalProps> = ({ close }) => {
   const [formData, setFormData] = useState<AddTodoFormData>({

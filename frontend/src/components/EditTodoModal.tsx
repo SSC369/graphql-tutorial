@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 
 import { EditTodoFormData, EditTodoModalProps } from "../types";
-import useEditTodo from "../hooks/useEditTodo";
+import useEditTodo from "../apis/mutations/editTodo/useEditTodo";
 
 const EditTodoModal: React.FC<EditTodoModalProps> = ({ close, todoData }) => {
   const { todo, completed, id } = todoData!;

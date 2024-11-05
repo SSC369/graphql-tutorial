@@ -1,7 +1,8 @@
 import { NetworkStatus, useQuery } from "@apollo/client";
-import todoStore from "../store/TodoStore";
-import { GET_TODOS } from "../queries/getTodos";
-import { GetTodosHookType } from "../types";
+
+import { GET_TODOS } from "./getTodos";
+import { GetTodosHookType } from "../../../types";
+import { onFailure, onSuccess } from "./responseHandler";
 
 const useGetTodos: GetTodosHookType = () => {
   const { networkStatus, error, refetch } = useQuery(GET_TODOS, {
@@ -10,9 +11,9 @@ const useGetTodos: GetTodosHookType = () => {
     notifyOnNetworkStatusChange: true,
     onCompleted: (data) => {
       if (data.todos.__typename === "Success") {
-        todoStore.addTodoDataIntoStore(data.todos.todosData);
+        onSuccess(data);
       } else {
-        alert(data.todos.error);
+        onFailure(data);
       }
     },
   });

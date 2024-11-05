@@ -1,13 +1,13 @@
 import { useMutation } from "@apollo/client";
-import { ADD_TODO } from "../queries/addTodo";
-import todoStore from "../store/TodoStore";
-import { AddTodoHookType } from "../types";
+
+import { ADD_TODO } from "./addTodo";
+import { AddTodoHookType } from "../../../types";
+import { onSuccess } from "./responseHandler";
 
 const useAddTodo: AddTodoHookType = () => {
   const [addTodo, { loading, error }] = useMutation(ADD_TODO, {
     onCompleted: (data) => {
-      const { id, todo, user, completed } = data.addTodo;
-      todoStore.addTodo(id, todo, user, completed);
+      onSuccess(data);
     },
   });
 

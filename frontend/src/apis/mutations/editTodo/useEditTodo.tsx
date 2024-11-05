@@ -1,12 +1,12 @@
 import { useMutation } from "@apollo/client";
-import { EDIT_TODO } from "../queries/editTodo";
-import { EditTodoHookType } from "../types";
+import { EDIT_TODO } from "./editTodo";
+import { EditTodoHookType } from "../../../types";
+import { onSuccess } from "./responseHandler";
 
 const useEditTodo: EditTodoHookType = (todoInstance) => {
   const [editTodo, { loading, error }] = useMutation(EDIT_TODO, {
     onCompleted: (data) => {
-      const { todo, completed } = data.editTodo;
-      todoInstance?.editTodo(todo, completed);
+      onSuccess(data, todoInstance);
     },
   });
 
