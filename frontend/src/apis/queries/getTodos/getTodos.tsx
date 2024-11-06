@@ -6,10 +6,18 @@ export const GET_TODOS: DocumentNode = gql`
       __typename
       ... on Success {
         todosData {
-          todo
-          id
-          completed
-          user
+          ... on CompletedTodo {
+            todo
+            id
+            completed
+            user
+          }
+          ... on IncompleteTodo {
+            todo
+            id
+            completed
+            user
+          }
         }
       }
       ... on Failure {

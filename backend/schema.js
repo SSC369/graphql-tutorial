@@ -7,6 +7,22 @@ type Todo{
     # user: User  :=> for nested fetching
 }
 
+type CompletedTodo{
+    id: ID 
+    todo: String 
+    completed: Boolean 
+    user: Int 
+}
+
+type IncompleteTodo{
+    id: ID 
+    todo: String 
+    completed: Boolean 
+    user: Int 
+}
+
+
+
 type User{
     id: ID 
     name: String 
@@ -18,9 +34,10 @@ type User{
 type UnauthorizedUser {
     message: String
 }
+union UnionTodo = CompletedTodo | IncompleteTodo
 
 type Success {
-    todosData: [Todo]
+    todosData: [UnionTodo]
 }
 type Failure{
     error: String

@@ -87,6 +87,14 @@ const resolvers = {
       return null; // GraphQLError if the type can't be determined
     },
   },
+  UnionTodo: {
+    __resolveType(obj) {
+      if (obj.completed === true) {
+        return "CompletedTodo";
+      }
+      return "IncompleteTodo";
+    },
+  },
 };
 const server = new ApolloServer({
   typeDefs,
